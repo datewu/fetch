@@ -1,3 +1,3 @@
-module github.com/datewu/project-lib
+module github.com/datewu/fetch
 
 go 1.17

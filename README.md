@@ -1,7 +1,7 @@
-# Go Project-lib
+# Go Fetch
 
-[![Godoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/github.com/datewu/project-lib)
+[![Godoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/github.com/datewu/fetch)
 
 ## Description
-go package template for github.
+fetch something 2021-10-13
 
