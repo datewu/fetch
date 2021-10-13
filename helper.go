@@ -37,6 +37,9 @@ func (c *Client) reqHTTP(metod, url string, r io.Reader, modify reqModify) (io.R
 	if err != nil {
 		return nil, err
 	}
+	if c.UA != "" {
+		req.Header.Set("User-Agent", c.UA)
+	}
 	if modify != nil {
 		modify(req)
 	}
