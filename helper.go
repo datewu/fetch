@@ -33,7 +33,7 @@ func (c *Client) init() {
 }
 
 func (c *Client) reqHTTP(metod, url string, r io.Reader, modify reqModify) (io.ReadCloser, error) {
-	req, err := http.NewRequest(metod, url, r)
+	req, err := http.NewRequestWithContext(c.ctx, metod, url, r)
 	if err != nil {
 		return nil, err
 	}
@@ -43,10 +43,12 @@ func (c *Client) reqHTTP(metod, url string, r io.Reader, modify reqModify) (io.R
 	if modify != nil {
 		modify(req)
 	}
-	resp, err := c.client.Do(req)
-	if err != nil {
-		return nil, err
+	var resp *http.Response
+	fn := func() error {
+		resp, err = c.client.Do(req)
+		return err
 	}
+	c.retry(fn)
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
 		return nil, fmt.Errorf("http status code: %d", resp.StatusCode)
