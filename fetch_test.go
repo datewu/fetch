@@ -8,7 +8,7 @@ import (
 
 func TestGet(t *testing.T) {
 	p := context.Background()
-	ctx, cancel := context.WithTimeout(p, 2*time.Second)
+	ctx, cancel := context.WithTimeout(p, 5*time.Second)
 	defer cancel()
 	cli := DefaultClient(ctx)
 	if err := cli.Get("https://jd.com", nil); err != nil {
@@ -25,7 +25,7 @@ func TestGet(t *testing.T) {
 }
 func TestPost(t *testing.T) {
 	p := context.Background()
-	ctx, cancel := context.WithTimeout(p, 2*time.Second)
+	ctx, cancel := context.WithTimeout(p, 5*time.Second)
 	defer cancel()
 	cli := DefaultClient(ctx)
 	todo := map[string]interface{}{
