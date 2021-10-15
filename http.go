@@ -13,17 +13,17 @@ func (c *Client) Delete(url string, container interface{}) error {
 }
 
 // Post is a shortcut for c.setJSON(http.MethodPost, url, payload, container)
-func (c *Client) Post(method, url string, payload, container interface{}) error {
+func (c *Client) Post(url string, payload, container interface{}) error {
 	return c.setJSON(http.MethodPost, url, payload, container)
 }
 
 // Put is a shortcut for c.setJSON(http.MethodPut, url, payload, container)
-func (c *Client) Put(method, url string, payload, container interface{}) error {
+func (c *Client) Put(url string, payload, container interface{}) error {
 	return c.setJSON(http.MethodPut, url, payload, container)
 }
 
 // Patch is a shortcut for c.setJSON(http.MethodPatch, url, payload, container)
-func (c *Client) Patch(method, url string, payload, container interface{}) error {
+func (c *Client) Patch(url string, payload, container interface{}) error {
 	return c.setJSON(http.MethodPatch, url, payload, container)
 }
 
