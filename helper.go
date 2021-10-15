@@ -48,8 +48,10 @@ func (c *Client) reqHTTP(metod, url string, r io.Reader, modify reqModify) (io.R
 		resp, err = c.client.Do(req)
 		return err
 	}
-	c.retry(fn)
-	if resp.StatusCode != http.StatusOK {
+	if err = c.retry(fn); err != nil {
+		return nil, err
+	}
+	if resp.StatusCode >= http.StatusBadRequest {
 		resp.Body.Close()
 		return nil, fmt.Errorf("http status code: %d", resp.StatusCode)
 	}
@@ -59,6 +61,9 @@ func (c *Client) reqHTTP(metod, url string, r io.Reader, modify reqModify) (io.R
 // container should be a pointer type
 func respJSON(r io.ReadCloser, container interface{}) error {
 	defer r.Close()
+	if container == nil {
+		return nil
+	}
 	return json.NewDecoder(r).Decode(container)
 }
 
