@@ -1,7 +1,34 @@
 package fetch
 
+import "net/http"
+
+// Get is a shortcut for c.getJSON(http.MethodGet, url, container)
+func (c *Client) Get(url string, container interface{}) error {
+	return c.getJSON(http.MethodGet, url, container)
+}
+
+// Delete is a shortcut for c.getJSON(http.MethodDelete, url, container)
+func (c *Client) Delete(url string, container interface{}) error {
+	return c.getJSON(http.MethodDelete, url, container)
+}
+
+// Post is a shortcut for c.setJSON(http.MethodPost, url, payload, container)
+func (c *Client) Post(method, url string, payload, container interface{}) error {
+	return c.setJSON(http.MethodPost, url, payload, container)
+}
+
+// Put is a shortcut for c.setJSON(http.MethodPut, url, payload, container)
+func (c *Client) Put(method, url string, payload, container interface{}) error {
+	return c.setJSON(http.MethodPut, url, payload, container)
+}
+
+// Patch is a shortcut for c.setJSON(http.MethodPatch, url, payload, container)
+func (c *Client) Patch(method, url string, payload, container interface{}) error {
+	return c.setJSON(http.MethodPatch, url, payload, container)
+}
+
 // container should be a pointer type
-func (c *Client) QueryJSON(method, url string, container interface{}) error {
+func (c *Client) getJSON(method, url string, container interface{}) error {
 	body, err := c.reqHTTP(method, url, nil, nil)
 	if err != nil {
 		return err
@@ -11,7 +38,7 @@ func (c *Client) QueryJSON(method, url string, container interface{}) error {
 }
 
 // container should be a pointer type
-func (c *Client) CreatJSON(method, url string, payload, container interface{}) error {
+func (c *Client) setJSON(method, url string, payload, container interface{}) error {
 	r, err := reqJSON(payload)
 	if err != nil {
 		return err

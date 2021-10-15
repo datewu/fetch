@@ -6,11 +6,15 @@ import (
 	"time"
 )
 
+const (
+	defaultUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
+)
+
 // New client...
 func DefaultClient(ctx context.Context) *Client {
 	c := &Client{
-		Name:    "default",
-		UA:      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36",
+		Name:    "spoof",
+		UA:      defaultUA,
 		Timeout: time.Minute,
 		Retry:   3,
 		ctx:     ctx,
