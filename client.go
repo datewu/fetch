@@ -34,13 +34,11 @@ type Client struct {
 }
 
 func (c *Client) retry(f func() error) error {
-	if c.Retry <= 0 || c.ctx == nil {
+	if c.ctx == nil {
 		return f()
 	}
-	var err error
 	for i := 0; i < c.Retry; i++ {
-		err = f()
-		if err == nil {
+		if err := f(); err == nil {
 			return nil
 		}
 		select {
@@ -50,5 +48,5 @@ func (c *Client) retry(f func() error) error {
 			time.Sleep(2 << (i + 1) * time.Second)
 		}
 	}
-	return err
+	return f()
 }
