@@ -1,15 +1,21 @@
-package fetch
+package client
 
 import (
+	"context"
 	"testing"
+	"time"
 )
 
 func TestGet(t *testing.T) {
-	if err := QuickGet("https://jd.com", nil); err != nil {
+	p := context.Background()
+	ctx, cancel := context.WithTimeout(p, 5*time.Second)
+	defer cancel()
+	cli := DefaultClient(ctx)
+	if err := cli.Get("https://jd.com", nil); err != nil {
 		t.Error(err)
 	}
 	todo := make(map[string]interface{})
-	err := QuickGet("https://jsonplaceholder.typicode.com/todos/1", &todo)
+	err := cli.Get("https://jsonplaceholder.typicode.com/todos/1", &todo)
 	if err != nil {
 		t.Error(err)
 	}
@@ -18,6 +24,10 @@ func TestGet(t *testing.T) {
 	}
 }
 func TestPost(t *testing.T) {
+	p := context.Background()
+	ctx, cancel := context.WithTimeout(p, 5*time.Second)
+	defer cancel()
+	cli := DefaultClient(ctx)
 	todo := map[string]interface{}{
 		"userId":    1,
 		"id":        1,
@@ -26,7 +36,7 @@ func TestPost(t *testing.T) {
 	}
 
 	resp := make(map[string]interface{})
-	err := QuickPost("https://jsonplaceholder.typicode.com/todos", todo, &resp)
+	err := cli.Post("https://jsonplaceholder.typicode.com/todos", todo, &resp)
 	if err != nil {
 		t.Error(err)
 	}

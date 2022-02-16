@@ -1,6 +1,10 @@
-package fetch
+package client
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/datewu/fetch/request"
+)
 
 // Get is a shortcut for c.getJSON(http.MethodGet, url, container)
 func (c *Client) Get(url string, container interface{}) error {
@@ -34,18 +38,18 @@ func (c *Client) getJSON(method, url string, container interface{}) error {
 		return err
 	}
 	defer body.Close()
-	return respJSON(body, container)
+	return request.DecodeJSON(body, container)
 }
 
 // container should be a pointer type
 func (c *Client) setJSON(method, url string, payload, container interface{}) error {
-	r, err := reqJSON(payload)
+	r, err := request.MarshalJSON(payload)
 	if err != nil {
 		return err
 	}
-	body, err := c.reqHTTP(method, url, r, josnModify)
+	body, err := c.reqHTTP(method, url, r, request.JosnModify)
 	if err != nil {
 		return err
 	}
-	return respJSON(body, container)
+	return request.DecodeJSON(body, container)
 }

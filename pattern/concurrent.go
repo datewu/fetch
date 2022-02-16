@@ -1,4 +1,4 @@
-package fetch
+package pattern
 
 import (
 	"errors"
@@ -11,8 +11,7 @@ type Fetcher interface {
 }
 
 // ConcurrentFirstOrErr concurrent fetch the fetcher list
-// return the first successful result or err is
-// all fetchers failed.
+// return the first successful result or err when all fetchers failed.
 func ConcurrentFirstOrErr(fs []Fetcher) (interface{}, error) {
 	if len(fs) == 0 {
 		return nil, errors.New("empty fetcher list")
