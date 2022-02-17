@@ -2,6 +2,9 @@ package client
 
 import (
 	"context"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 	"time"
 )
@@ -11,7 +14,12 @@ func TestGet(t *testing.T) {
 	ctx, cancel := context.WithTimeout(p, 5*time.Second)
 	defer cancel()
 	cli := DefaultClient(ctx)
-	if err := cli.Get("https://jd.com", nil); err != nil {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Hello, client")
+	}))
+	defer ts.Close()
+	t.Log("test server url", ts.URL)
+	if err := cli.Get(ts.URL, nil); err != nil {
 		t.Error(err)
 	}
 	todo := make(map[string]interface{})
