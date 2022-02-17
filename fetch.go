@@ -6,16 +6,19 @@ import (
 	"github.com/datewu/fetch/client"
 )
 
-var defaultClient = client.DefaultClient(context.Background())
+// QuickClient is a quick client which persistently use the default client
+var QuickClient = client.DefaultClient(context.Background())
 
-// QuickGet is a shortcut for defaultClient.Get(url, container)
+// QuickGet quick grab something
 // container should be a pointer type
 func QuickGet(url string, container interface{}) error {
-	return defaultClient.Get(url, container)
+	cli := client.DefaultClient(context.Background())
+	return cli.Get(url, container)
 }
 
-// QuickPost is a shortcut for defaultClient.Post(url, payload, container)
+// QuickPost quick post something
 // container should be a pointer type
 func QuickPost(url string, data interface{}, container interface{}) error {
-	return defaultClient.Post(url, data, container)
+	cli := client.DefaultClient(context.Background())
+	return cli.Post(url, data, container)
 }

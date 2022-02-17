@@ -24,7 +24,7 @@ func DefaultClient(ctx context.Context) *Client {
 		Retry:   3,
 		ctx:     ctx,
 	}
-	c.setDefaultCli()
+	c.confDefault()
 	return c
 }
 
@@ -40,13 +40,13 @@ type Client struct {
 
 func (c *Client) SetHTTPClient(cli *http.Client) {
 	if cli == nil {
-		c.setDefaultCli()
+		c.confDefault()
 	} else {
 		c.client = cli
 	}
 }
 
-func (c *Client) setDefaultCli() {
+func (c *Client) confDefault() {
 	cli := &http.Client{
 		Timeout: c.Timeout,
 	}
