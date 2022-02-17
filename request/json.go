@@ -3,8 +3,10 @@ package request
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
+	"reflect"
 )
 
 const (
@@ -23,6 +25,10 @@ func DecodeJSON(r io.ReadCloser, container interface{}) error {
 	defer r.Close()
 	if container == nil {
 		return nil
+	}
+	t := reflect.TypeOf(container)
+	if t.Kind() != reflect.Ptr {
+		return errors.New("container should be a pointer type")
 	}
 	return json.NewDecoder(r).Decode(container)
 }
