@@ -6,7 +6,7 @@ import (
 	"github.com/datewu/fetch/client"
 )
 
-// QuickClient is a quick client which persistently use the default client
+// QuickClient is a quick client which re-use the default client
 var QuickClient = client.DefaultClient(context.Background())
 
 // QuickGet quick grab some json stuff to container
